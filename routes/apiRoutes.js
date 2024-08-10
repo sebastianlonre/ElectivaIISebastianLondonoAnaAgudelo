@@ -1,6 +1,6 @@
 const express = require("express");
 const { listTweets, newTweets, myTweets, deleteTweet } = require("../controllers/tweetsController");
-const { listMysocial, followUser } = require("../controllers/socialController");
+const { listMysocial, followUser, unfollowUser } = require("../controllers/socialController");
 const router = express.Router();
 
 
@@ -13,6 +13,7 @@ router.delete("/tweets/:idTweets", deleteTweet);
 //Social
 
 router.get("/social/:uid", listMysocial);
-router.post("/social", followUser)
+router.post("/social", followUser);
+router.delete("/social", unfollowUser);
 
 module.exports = router;

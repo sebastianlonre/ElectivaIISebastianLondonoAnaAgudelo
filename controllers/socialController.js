@@ -136,9 +136,36 @@ const followUser = (request, response) => {
   });
 };
 
+const unfollowUser = (request, response) => {
+  const { uid, uidUnfollowing } = request.body;
+
+  const user = usersData.find(user => user.uid === uid);
+  const userToUnfollow = usersData.find(user => user.uid === uidUnfollowing);
+
+  if (!user || !userToUnfollow) {
+    return response.status(404).json({
+      error: "Alguno de los usuarios no fue encontrado"
+    });
+  }
+
+  if (!user.follow.includes(uidUnfollowing)) {
+    return response.status(400).json({
+      error: "No estás siguiendo a este usuario"
+    });
+  }
+  user.follow = user.follow.filter(id => id !== uidUnfollowing);
+
+  userToUnfollow.following = userToUnfollow.following.filter(id => id !== uid);
+
+  response.status(200).json({
+    message: `Has dejado de seguir a ${userToUnfollow.userName}`,
+    follow: user.follow
+  });
+};
 
 
 module.exports = {
   listMysocial,
-  followUser
+  followUser,
+  unfollowUser
 }

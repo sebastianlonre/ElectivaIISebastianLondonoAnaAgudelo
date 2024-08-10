@@ -1,54 +1,54 @@
 const tweets = [
   {
-    idTweets: "01",
+    idTweets: "1",
     userName: "@Ana",
     date: "10/08/2024 a las 8:16",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc efficitur commodo aliquam. Pellentesque id diam ac neque elementum bibendum ut a lacus. Nullam posuere consequat libero, vitae aliquet nibh maximus dapibus. Sed et convallis quam, vitae ultricies odio. Duis suscipit arcu in mi fermentum scelerisque. Cras varius lacus non rhoncus blandit.",
   },
   {
-    idTweets: "02",
+    idTweets: "2",
     userName: "@Carlos",
     date: "10/08/2024 a las 9:30",
     content: "Aenean non urna nec sapien tempor blandit. Morbi eget arcu vel ligula interdum cursus. Vestibulum tincidunt massa ut lectus dapibus, ut facilisis nunc ullamcorper.",
   },
   {
-    idTweets: "03",
+    idTweets: "3",
     userName: "@Laura",
     date: "10/08/2024 a las 10:45",
     content: "Curabitur convallis dui et diam volutpat, ac vulputate eros laoreet. Nulla vel ante vel quam malesuada venenatis. Quisque a pharetra dolor.",
   },
   {
-    idTweets: "04",
+    idTweets: "4",
     userName: "@Sofia",
     date: "10/08/2024 a las 11:00",
     content: "Suspendisse potenti. Integer in mauris purus. Fusce non ipsum nec metus auctor dapibus sit amet in odio.",
   },
   {
-    idTweets: "05",
+    idTweets: "5",
     userName: "@Miguel",
     date: "10/08/2024 a las 11:15",
     content: "Mauris sed erat at enim dictum dapibus. Proin laoreet velit ut tellus aliquet, nec scelerisque sapien ultrices.",
   },
   {
-    idTweets: "06",
+    idTweets: "6",
     userName: "@Elena",
     date: "10/08/2024 a las 11:45",
     content: "Vivamus in sapien nec lorem dapibus tincidunt. Morbi fringilla ligula non nisi efficitur, vel viverra magna feugiat.",
   },
   {
-    idTweets: "07",
+    idTweets: "7",
     userName: "@Jorge",
     date: "10/08/2024 a las 12:30",
     content: "Nunc et erat sed ligula viverra cursus. Duis malesuada sapien ac nulla fermentum, nec tristique neque cursus.",
   },
   {
-    idTweets: "08",
+    idTweets: "8",
     userName: "@Andrea",
     date: "10/08/2024 a las 13:10",
     content: "Phasellus quis ante vitae lacus facilisis placerat. Integer rutrum quam a ligula ullamcorper, nec tincidunt turpis auctor.",
   },
   {
-    idTweets: "09",
+    idTweets: "9",
     userName: "@Luis",
     date: "10/08/2024 a las 13:50",
     content: "Aliquam at felis sit amet eros vehicula pretium ut nec lacus. Praesent tristique arcu ac orci facilisis, at egestas nisl viverra.",
@@ -102,11 +102,31 @@ const myTweets = (request, response) => {
     });
   }
 
-  response.json(myPost);
+  response.status(200).json(myPost);
+}
+
+const deleteTweet = (request, response) => {
+  const { idTweets } = request.params;
+
+  const tweetIndex = tweets.findIndex((tweet) => tweet.idTweets === idTweets)
+
+  if(tweetIndex === -1){
+    return response.status(404).json({
+      error: "Tweet no encontrado"
+    });
+  }
+
+  const deletedTweet = tweets.splice(tweetIndex, 1);
+
+  response.status(200).json({
+    mensage: "Se ha eliminado el tweet",
+    tweet: deletedTweet[0]
+  })
 }
 
 module.exports = {
   listTweets,
   newTweets,
-  myTweets
+  myTweets,
+  deleteTweet
 }

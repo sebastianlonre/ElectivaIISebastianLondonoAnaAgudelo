@@ -75,8 +75,38 @@ const listTweets = (request, response)=>{
 
 const newTweets = (request, response) =>{
 
+  const {userName, content} = request.body;
+
+  const data = tweets;
+  const thisDate = new Date();
+  const newID = data.length + 1;
+
+  data.push({
+    idTweets: newID,
+    userName,
+    date: thisDate,
+    content
+  })
+
+  return response.status(201).json({menssage: "tweet publicado con exito", data});
+}
+
+const myTweets = (request, response) => {
+  const { userName } = request.body;
+  const data = tweets;
+  const myPost = data.filter((tweet) => tweet.userName === userName);
+
+  if(myPost.length === 0) {
+    return response.status(404).json({
+      error: "No se ha encontrado el usuario"
+    });
+  }
+
+  response.json(myPost);
 }
 
 module.exports = {
-  listTweets
+  listTweets,
+  newTweets,
+  myTweets
 }
